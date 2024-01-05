@@ -71,7 +71,7 @@ def calculate_similarity(matrix):
     return similarity_matrix
 
 def main():
-    st.title('Document Similarity Detection')
+    st.title('Document Similarity Detection - Dhruv Patel (21CS041) ')
 
     # Upload files
     uploaded_files = st.file_uploader('Upload documents (PDF or Word)', type=['pdf', 'docx'], accept_multiple_files=True)
@@ -120,6 +120,10 @@ def main():
             st.write(f"Average Similarity: {result['average_similarity']:.4f}")
             st.write('\n')
 
+    st.markdown("---")
+    st.write("Created by Dhruv Patel - 21CS041")
+    st.write("[LinkedIn Profile](https://www.linkedin.com/in/pateldhruv004/)")
+    
 
 if __name__ == '__main__':
     main()
