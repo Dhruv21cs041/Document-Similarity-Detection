@@ -90,8 +90,19 @@ def main():
         result_data = []
 
         for i in range(len(input_documents)):
-            doc_results = [{'document': document_names[j], 'similarity': similarity_matrix[i][j]} for j in range(len(input_documents))]
-            result_data.append({'document': document_names[i], 'results': doc_results, 'average_similarity': sum(similarity_matrix[i]) / len(input_documents)})
+            doc_results = [
+                {'document': document_names[j], 'similarity': similarity_matrix[i][j]} 
+                for j in range(len(input_documents)) if i != j
+            ]
+
+            # Calculate average similarity without considering self-similarity
+            avg_similarity = sum(similarity_matrix[i][j] for j in range(len(input_documents)) if i != j) / (len(input_documents) - 1)
+
+            result_data.append({
+                'document': document_names[i],
+                'results': doc_results,
+                'average_similarity': avg_similarity
+            })
 
         # Display results
         st.table(result_data)
