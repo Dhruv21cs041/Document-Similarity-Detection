@@ -71,7 +71,7 @@ def calculate_similarity(matrix):
     return similarity_matrix
 
 def main():
-    st.title('Document Similarity Detection')
+    st.title('Document Similarity Detection - Dhruv Patel (21CS041) ')
 
     # Upload files
     uploaded_files = st.file_uploader('Upload documents (PDF or Word)', type=['pdf', 'docx'], accept_multiple_files=True)
