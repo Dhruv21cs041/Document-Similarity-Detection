@@ -6,11 +6,7 @@ import PyPDF2
 from docx import Document
 
 # Load spaCy English model
-import os
-
-
-model_path = os.path.join('models', 'en_core_web_sm')
-nlp = spacy.load(model_path)
+nlp = spacy.load('en_core_web_sm')
 
 def preprocess_text(text):
     # Tokenize and lemmatize text
