@@ -78,6 +78,7 @@ def main():
 
     if uploaded_files:
         input_documents = [read_text(file) for file in uploaded_files]
+        file_names = [file.name for file in uploaded_files]
 
         # Preprocess and vectorize documents
         tfidf_matrix = vectorize_documents(input_documents)
@@ -85,27 +86,40 @@ def main():
         # Calculate similarity matrix
         similarity_matrix = calculate_similarity(tfidf_matrix)
 
+        # Display threshold slider
+        similarity_threshold = st.slider('Similarity Threshold', 0.0, 1.0, 0.5, 0.01)
+
         # Display results
-        document_names = [f"Document {i+1}" for i in range(len(input_documents))]
         result_data = []
 
         for i in range(len(input_documents)):
             doc_results = [
-                {'document': document_names[j], 'similarity': similarity_matrix[i][j]} 
+                {
+                    'file_name': file_names[j],
+                    'similarity': similarity_matrix[i][j]
+                }
                 for j in range(len(input_documents)) if i != j
             ]
 
             # Calculate average similarity without considering self-similarity
             avg_similarity = sum(similarity_matrix[i][j] for j in range(len(input_documents)) if i != j) / (len(input_documents) - 1)
 
+            # Filter results based on similarity threshold
+            filtered_results = [result for result in doc_results if result['similarity'] >= similarity_threshold]
+
             result_data.append({
-                'document': document_names[i],
-                'results': doc_results,
+                'file_name': file_names[i],
+                'results': filtered_results,
                 'average_similarity': avg_similarity
             })
 
         # Display results
-        st.table(result_data)
+        for result in result_data:
+            st.write(f"### {result['file_name']}")
+            st.table(result['results'])
+            st.write(f"Average Similarity: {result['average_similarity']:.4f}")
+            st.write('\n')
+
 
 if __name__ == '__main__':
     main()
